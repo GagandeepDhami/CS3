@@ -1,0 +1,7 @@
+Hello, this is a compared text file2.
+This is the original file and i will be comparing this file,
+to file1.txt. This file will be copied and pasted into another file. 
+
+Enough about the files, lets talk about something else. 
+dinsey world is so much fun i wish i was at disney world right now. 
+My favorite park at Disney is Animal Kingdom, where you can drink around the world with your friends. 
