@@ -44,7 +44,7 @@ int main() {
     }
 
     // Collection of collections
-    Collection<Collection<char>> cpile; // Nested collections
+    Collection<Collection<char> > cpile; // Nested collections
     cpile.addItem(a2g);
     cpile.addItem(h2n);
     cpile.addItem(o2u);
@@ -64,7 +64,7 @@ int main() {
 
     cout << "adding an array of strings ";
     for(auto s : sa)
-       ctwo.add(s);
+    ctwo.add(s);
 
     cout << "String collection: ";
     ctwo.print();
@@ -76,8 +76,8 @@ int main() {
     Collection<char> a2g, h2n, o2u;
     cout << "Populating individual character collections" << endl;
     for(char c='a'; c <='g'; ++c) {
-       a2g.add(c);
-       assert(a2g.last() == c);
+    a2g.add(c);
+    assert(a2g.last() == c);
     }
     for(char c='h'; c <='n'; ++c) h2n.add(c);
     for(char c='o'; c <='u'; ++c) o2u.add(c);
