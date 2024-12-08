@@ -6,23 +6,65 @@
 // Remember, to run program 'clang++ diff.cpp' or './a.out'
 
 #include <iostream>
+#include <fstream>
 #include <string>
-#include <fstream> // needed for file operations 
 
-// Using argc:   argc is the argument count, so we check if it equals 3 (program + file1 + file2)
-// Using argv[]: argv[1] is the first file and argv[2] is the secound file
-int main(int argc, char* argv[]){
+void compareFiles(const std::string& file1, const std::string& file2) {
+    std::ifstream inFile1(file1);
+    std::ifstream inFile2(file2);
 
-    //Declaring parameters of argc 
-    std::ifstream file1(argv[1]);
-    std::ifstream file2(argv[2]);
-
-    // Check if 3 arguments are passed (program + 2 files.txt)
-    if (argc != 3){
-        std::cout << "Using" << argv[0] << " file 1, file 2 " << std::endl;
-        return 1; // error code
+    if (!inFile1.is_open() || !inFile2.is_open()) {
+        std::cerr << "Error: Unable to open input files." << std::endl;
+        return;
     }
 
+    std::string line1, line2;
+    int lineNum = 0;
+
+    while (std::getline(inFile1, line1) && std::getline(inFile2, line2)) {
+        lineNum++;
+
+        if (line1 != line2) {
+            std::cout << file1 << ": " << lineNum << ": " << line1 << std::endl;
+            std::cout << file2 << ": " << lineNum << ": " << line2 << std::endl;
+
+            size_t minLength = std::min(line1.length(), line2.length());
+            for (size_t i = 0; i < minLength; i++) {
+                if (line1[i] != line2[i]) {
+                    std::cout << std::string(i, ' ') << '^' << std::endl;
+                    break;
+                }
+            }
+        }
+    }
+
+    // Handle extra lines in longer file
+    while (std::getline(inFile1, line1)) {
+        lineNum++;
+        std::cout << file1 << ": " << lineNum << ": " << line1 << std::endl;
+    }
+
+    while (std::getline(inFile2, line2)) {
+        lineNum++;
+        std::cout << file2 << ": " << lineNum << ": " << line2 << std::endl;
+    }
+
+    inFile1.close();
+    inFile2.close();
+}
+
+int main(int argc, char* argv[]) {
+    if (argc != 3) {
+        std::cerr << "Usage: " << argv[0] << " <file1> <file2>" << std::endl;
+        return 1;
+    }
+
+    const std::string file1(argv[1]);
+    const std::string file2(argv[2]);
+
+    compareFiles(file1, file2);
+
+    return 0;
 }
 /*
 
