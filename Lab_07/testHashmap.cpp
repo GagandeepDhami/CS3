@@ -11,65 +11,33 @@ using std::cout;
 using std::endl;
 using std::string;
 
-
 int main() {
-   hashmap<int, int> myHash;
-   myHash.insert(pair<int,int>(4, 40));
-   myHash.insert(make_pair(6, 60));
+    hashmap<int, int> myHash;
 
-   // x will have type hashmap<int, int>::value_type*
-   auto x = myHash.find(4);
-   if (x != nullptr) 
-      cout << "4 maps to " << x->second << endl;
-   else 
-      cout << "cannot find 4 in map" << endl;
-   
+    // Test insert()
+    auto result = myHash.insert({1, 10});
+    cout << "Insert 1: " << (result.second ? "Success" : "Failure") 
+         << ", Value: " << result.first->second << endl;
 
-   myHash.erase(4);
+    result = myHash.insert({1, 20});
+    cout << "Insert duplicate 1: " << (result.second ? "Success" : "Failure") 
+         << ", Value: " << result.first->second << endl;
 
-   auto x2 = myHash.find(4);
-   if (x2 != nullptr)
-      cout << "4 maps to " << x2->second << endl;
-   else 
-      cout << "cannot find 4 in map" << endl;
-   
-   myHash[4] = 35;
-   myHash[4] = 60;
+    // Test operator[]
+    cout << "Value for key 2: " << myHash[2] << endl;
+    myHash[2] = 30;
+    cout << "Updated value for key 2: " << myHash[2] << endl;
 
-   auto x3 = myHash.find(4);
-   if (x3 != nullptr)
-      cout << "4 maps to " << x3->second << endl;
-   else 
-      cout << "cannot find 4 in map" << endl;
+    // Test erase()
+    auto eraseResult = myHash.erase(1);
+    cout << "Erase key 1: " << (eraseResult.second ? "Success" : "Failure") << endl;
 
-   hashmap<int, string> employees;
+    eraseResult = myHash.erase(3);
+    cout << "Erase non-existent key 3: " << (eraseResult.second ? "Success" : "Failure") << endl;
 
-   // entering entries with indexing operator
-   employees[123] = "Mike";
-   employees[345] = "Charlie";
-   employees[192] = "Joe";
-   employees[752] = "Paul";
-   employees[328] = "Peter";
+    // Test rehash()
+    myHash.rehash(200);
+    cout << "Rehashed to 200 buckets successfully." << endl;
 
-   cout << "Enter new employee number: "; int num; cin >> num;
-   cout << "Enter new employee name: "; string name; cin >> name;
-
-   employees[num] = name; // "unsafe" insert
-
-   // searching map
-   cout << "Enter employee number to look for: "; cin >> num;
-   auto it = employees.find(num);
-   if(it != nullptr)
-      cout << it->first << ":" << it->second << endl;
-   else
-      cout << "employee not found" << endl;
-
-   // removing from a map
-   cout << "Enter employee number to fire: "; cin >> num;
-   employees.erase(num);
-   // check if not there
-   auto removed = employees.find(num);
-   if (removed == nullptr)
-      cout << "Employee removed successfully" << endl;
-
+    return 0;
 }
